@@ -1,0 +1,24 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag qemu-novnc:xp
+
+    - name: Upload image
+      uses: ishworkh/docker-image-artifact-upload@v2.0.1
+      with:
+        image: "qemu-novnc:xp"
+        retention_days: "15"
